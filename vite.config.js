@@ -1,18 +1,25 @@
 import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
-  // Use root-relative base for Vercel deployment
   base: '/',
   server: {
     open: true,
   },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        { src: 'assets/js/*', dest: 'assets/js' },
+        { src: 'assets/css/*', dest: 'assets/css' },
+        { src: 'assets/images/*', dest: 'assets/images' },
+      ]
+    })
+  ],
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
-    // Increase chunk size warning limit for Webflow exports
     chunkSizeWarningLimit: 1000,
-    // Don't process HTML as entry point to avoid script bundling issues
     rollupOptions: {
       input: 'index.html',
       output: {
